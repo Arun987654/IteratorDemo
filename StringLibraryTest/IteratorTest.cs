@@ -15,7 +15,7 @@ using ClassLibrary;
 namespace StringLibraryTest
 {
     [TestClass]
-    public class UnitTest1
+    public class IteratorTest
     {
         /// <summary>
         /// Initializes a Cricinfo scorecard with sample data.
@@ -42,7 +42,7 @@ namespace StringLibraryTest
         {
             Cricinfo scorecard = new();
             IPlayerIterator iterator = scorecard.CreateIterator();
-            Assert.IsNotNull( iterator , "{0}" , iterator );
+            Assert.IsNotNull( iterator );
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace StringLibraryTest
             Cricinfo scorecard = new();
             scorecard.AddPlayer( new Player( "Test" , 0 , 1 ) );
             IPlayerIterator iterator = scorecard.CreateIterator();
-            Assert.IsTrue( iterator.IsLive() , "Expected : true; Actual : {0}" , iterator.IsLive() );
+            Assert.IsTrue( iterator.IsLive() );
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace StringLibraryTest
         {
             Cricinfo scorecard = new();
             IPlayerIterator iterator = scorecard.CreateIterator();
-            Assert.IsFalse( iterator.IsLive() , "Expected : false; Actual : {0}" , iterator.IsLive() );
+            Assert.IsFalse( iterator.IsLive() );
         }
 
         /// <summary>
@@ -75,7 +75,6 @@ namespace StringLibraryTest
         public void TestWickets()
         {
             Cricinfo scorecard = Initialise();
-            int wickets = scorecard.GetNumWickets();
             IPlayerIterator iterator = scorecard.CreateIterator();
             int wkts = 0;
             while (iterator.IsLive())
@@ -86,7 +85,7 @@ namespace StringLibraryTest
                     wkts++;
                 }
             }
-            Assert.AreEqual( wkts , wickets , "Expected : {0}; Actual : {1}" , wickets , wkts );
+            Assert.AreEqual( wkts , 3 );
         }
 
         /// <summary>
@@ -96,7 +95,14 @@ namespace StringLibraryTest
         public void TestBalls()
         {
             Cricinfo scorecard = Initialise();
-            Assert.AreEqual( scorecard.BallsBowled() , 6 );
+            IPlayerIterator iterator = scorecard.CreateIterator();
+            int balls = 0;
+            while (iterator.IsLive())
+            {
+                Player player = iterator.Next();
+                balls += player.BallsFaced;
+            }
+            Assert.AreEqual( balls, 6 );
         }
 
         /// <summary>
@@ -113,7 +119,7 @@ namespace StringLibraryTest
                 Player player = iterator.Next();
                 total += player.RunsScored;
             }
-            Assert.AreEqual( scorecard.TeamTotal() , total );
+            Assert.AreEqual( total, 6 );
         }
 
         /// <summary>
@@ -123,10 +129,17 @@ namespace StringLibraryTest
         public void TestOvers()
         {
             Cricinfo scorecard = Initialise();
-            int overs = scorecard.BallsBowled() / 6;
-            int additional = scorecard.BallsBowled() % 6;
+            IPlayerIterator iterator = scorecard.CreateIterator();
+            int balls = 0;
+            while (iterator.IsLive())
+            {
+                Player player = iterator.Next();
+                balls += player.BallsFaced;
+            }
+            int overs = balls / 6;
+            int additional = balls % 6;
             string numOvers = overs + "." + additional;
-            Assert.AreEqual( numOvers , "1.0" , "Expected: 1.0; Actual : {0}" , numOvers );
+            Assert.AreEqual( numOvers , "1.0" );
         }
 
         /// <summary>
@@ -139,8 +152,45 @@ namespace StringLibraryTest
             scorecard.AddPlayer( new Player( "X" , 50 , 25 ) );
             scorecard.AddPlayer( new Player( "Y" , 58 , 29 ) );
             scorecard.AddPlayer( new Player( "Z" , 30 , 15 ) );
-            float nrr = scorecard.CurrentRunRate();
-            Assert.AreEqual( nrr , 12.0 , "Expected : 12.0; Actual : {0}" , nrr );
+            IPlayerIterator iterator = scorecard.CreateIterator();
+            int balls = 0;
+            int total = 0;
+            while (iterator.IsLive())
+            {
+                Player player = iterator.Next();
+                total += player.RunsScored;
+                balls += player.BallsFaced;
+            }
+            // Calculate the net run rate
+            float nrr = (float)total*6 / balls;
+            Assert.AreEqual( nrr , 12.0 );
+        }
+
+        /// <summary>
+        /// Tests batsman with highest strike rate.
+        /// </summary>
+        [TestMethod]
+        public void TestHighestSR()
+        {
+            Cricinfo scorecard = new();
+            scorecard.AddPlayer( new Player( "X" , 50 , 25 ) );
+            scorecard.AddPlayer( new Player( "Y" , 38 , 24 ) );
+            scorecard.AddPlayer( new Player( "Z" , 10 , 13 ) );
+            IPlayerIterator iterator = scorecard.CreateIterator();
+            float maxSr = 0;
+            string bestBatter = "";
+            while (iterator.IsLive())
+            {
+                Player player = iterator.Next();
+                float sr = player.StrikeRate;
+                // If strike rate of this batsman is higher, update maxSr and bestBatter
+                if(sr>maxSr)
+                {
+                    maxSr = sr;
+                    bestBatter = player.Name;
+                }
+            }
+            Assert.AreEqual( bestBatter , "X" );
         }
     }
 }

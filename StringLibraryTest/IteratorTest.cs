@@ -150,8 +150,8 @@ namespace StringLibraryTest
         {
             Cricinfo scorecard = new();
             scorecard.AddPlayer( new Player( "X" , 50 , 25 ) );
-            scorecard.AddPlayer( new Player( "Y" , 58 , 29 ) );
-            scorecard.AddPlayer( new Player( "Z" , 30 , 15 ) );
+            scorecard.AddPlayer( new Player( "Y" , 58 , 29, true ) );
+            scorecard.AddPlayer( new Player( "Z" , 30 , 15, true ) );
             IPlayerIterator iterator = scorecard.CreateIterator();
             int balls = 0;
             int total = 0;
@@ -174,8 +174,8 @@ namespace StringLibraryTest
         {
             Cricinfo scorecard = new();
             scorecard.AddPlayer( new Player( "X" , 50 , 25 ) );
-            scorecard.AddPlayer( new Player( "Y" , 38 , 24 ) );
-            scorecard.AddPlayer( new Player( "Z" , 10 , 13 ) );
+            scorecard.AddPlayer( new Player( "Y" , 38 , 24, true ) );
+            scorecard.AddPlayer( new Player( "Z" , 10 , 13, true ) );
             IPlayerIterator iterator = scorecard.CreateIterator();
             float maxSr = 0;
             string bestBatter = "";

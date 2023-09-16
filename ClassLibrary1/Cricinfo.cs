@@ -7,7 +7,7 @@
 * 
 * Project     = IteratorDemo
 *
-* Description = Declares the class Cricinfo which implements the IScorecard interface
+* Description = Defines the class Cricinfo which implements the IScorecard interface
 *****************************************************************************/
 
 namespace ClassLibrary

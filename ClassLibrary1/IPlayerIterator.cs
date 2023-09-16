@@ -20,7 +20,7 @@ namespace ClassLibrary
         /// <summary>
         /// Checks if there are more live elements to iterate through.
         /// </summary>
-        /// <returns>True if there are more live elements, otherwise false.</returns>
+        /// <returns>True if there are more live elements, false otherwise.</returns>
         bool IsLive();
 
         /// <summary>

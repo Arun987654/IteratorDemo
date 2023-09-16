@@ -7,13 +7,13 @@
 * 
 * Project     = IteratorDemo
 *
-* Description = Declares the class PlayerIterator which keeps track of the current position in the traversal of the aggregate object and implements the interface IPlayerIterator
+* Description = Defines the class PlayerIterator which keeps track of the current position in the traversal of the aggregate object and implements the interface IPlayerIterator
 *****************************************************************************/
 
 namespace ClassLibrary
 {
     /// <summary>
-    /// 
+    /// Define methods to traverse the aggregate object and checks if it has ended or not
     /// </summary>
     public class PlayerIterator : IPlayerIterator
     {
@@ -31,7 +31,7 @@ namespace ClassLibrary
         /// <summary>
         /// Checks if there are more players to iterate through.
         /// </summary>
-        /// <returns>True if there are more players, otherwise false.</returns>
+        /// <returns>True if there are more players, false otherwise.</returns>
         public bool IsLive()
         {
             return _index < _batters.Count;

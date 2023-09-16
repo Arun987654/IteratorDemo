@@ -13,8 +13,14 @@ using ClassLibrary;
 
 namespace MainApp
 {
+    /// <summary>
+    /// The Program class helps in providing a user interface
+    /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// Prints the scorecard in a formatted manner
+        /// </summary>
         static void Main()
         {
             Cricinfo scorecard = new();

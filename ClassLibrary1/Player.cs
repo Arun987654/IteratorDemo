@@ -7,7 +7,7 @@
  * 
  * Project     = IteratorDemo
  *
- * Description = Declares the class Player which holds the score of a batter
+ * Description = Defines the class Player which holds the score of a batter
  *****************************************************************************/
 
 namespace ClassLibrary
@@ -38,7 +38,7 @@ namespace ClassLibrary
         public float StrikeRate { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the player is not out (has not been dismissed).
+        /// Gets a boolean value indicating whether the player is not out (has been dismissed or not).
         /// </summary>
         public bool NotOut { get; }
 
